@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './francesco.png';
 import './App.css';
 
 class App extends Component {
 
   render() {
 
-    const hostname = window.location.hostname
+    const hostname:string = window.location.hostname
 
     return (
       <div className="App">
