@@ -27,7 +27,7 @@ mlpOnly = False
 allFormats = False
 useNTP = False
 
-app = Flask(__name__,  static_folder='static')
+app = Flask(__name__,  static_folder='build')
 api = Api(app)
 
 # serve the angular app
@@ -35,10 +35,10 @@ api = Api(app)
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
-    if path != "" and os.path.exists("static/" + path):
-        return send_from_directory('static/', path)
+    if path != "" and os.path.exists("build/" + path):
+        return send_from_directory('build/', path)
     else:
-        return send_from_directory('static/', 'index.html')
+        return send_from_directory('build/', 'index.html')
 
 # API endpoints
 
