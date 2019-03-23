@@ -21,7 +21,7 @@ interface IProps {
 class App extends React.Component<IProps, IState> {
 
   statusEndpoint = 'https://arup-iot-desk.appspot.com/api/desks/';
-  infoEndpoint = 'http://localhost/info';
+  infoEndpoint = 'http://statusserver/info';
   infoLoading: boolean = true;
 
   constructor (props: any) {
@@ -54,10 +54,13 @@ class App extends React.Component<IProps, IState> {
     axios.get(this.infoEndpoint).then( infoRes => {
       console.log(infoRes);
       if (infoRes.data[2].length) {
+
+        const wlan0Ip = infoRes.data[2][1] !== undefined ? infoRes.data[2][1] : null 
+
         this.setState({
           hostname: infoRes.data[0],
           eth0Ip: infoRes.data[2][0][2],
-          wlan0Ip: infoRes.data[2][1][2],
+          wlan0Ip: wlan0Ip,
           deskId: infoRes.data[1],
           infoLoading: false
         })
