@@ -9,9 +9,13 @@ interface IState {
   deskName?: string;
 }
 
-interface IProps {}
+interface IProps {
+  statusEndpoint?: string
+}
 
 class App extends React.Component<IProps, IState> {
+
+  statusEndpoint = 'https://arup-iot-desk.appspot.com/api/desks/';
 
   constructor (props: any) {
     super(props)
@@ -22,19 +26,33 @@ class App extends React.Component<IProps, IState> {
     }
   }
 
-  render() {
+  getStatus() {
 
     const id = '5629499534213120'
-
-    axios.get('https://arup-iot-desk.appspot.com/api/desks/' + id)
-    .then(response => {
-      console.log(response.data)
-      this.setState({
-        booked: response.data.booked,
-        userEmail: response.data.user_email,
-        deskName: response.data.name
+  
+    axios.get(this.statusEndpoint + id)
+      .then(response => {
+        console.log(response.data)
+        this.setState({
+          booked: response.data.booked,
+          userEmail: response.data.user_email,
+          deskName: response.data.name
+        })
       })
-    })
+  }
+
+  componentDidMount() {
+
+    this.getStatus(); 
+
+    setInterval( () => {
+      this.getStatus()  
+    }, 4000)
+
+    
+  }
+
+  render() {
 
     const hostname:string = window.location.hostname
 
@@ -48,12 +66,16 @@ class App extends React.Component<IProps, IState> {
             <code>{this.state.deskName}</code>
           </p>
           <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Booked by: {this.state.userEmail}
-          </p>
-          <p>
-            Booked until 5:30pm
-          </p>
+          {this.state.booked ===  true && 
+            <>
+              <p>
+                Booked by: {this.state.userEmail}
+              </p>
+              <p>
+                Booked until 5:30pm
+              </p>
+            </>
+          }
         </header>
       </div>
     );
