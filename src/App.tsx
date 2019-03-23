@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import logo from './francesco.png';
 import axios from 'axios'
+// First way to import
+import { ClipLoader } from 'react-spinners';
 import './App.css';
 
 interface IState {
@@ -12,6 +13,7 @@ interface IState {
   wlan0Ip?: string;
   hostname?: string;
   infoLoading?: boolean;
+  statusLoading?: boolean;
 }
 
 interface IProps {
@@ -31,7 +33,8 @@ class App extends React.Component<IProps, IState> {
       userEmail: '' ,
       deskName: '',
       deskId: '',
-      infoLoading: true
+      infoLoading: true,
+      statusLoading: true,
     }
   }
 
@@ -89,8 +92,23 @@ class App extends React.Component<IProps, IState> {
           <p>
             <code>{this.state.deskName}</code>
           </p>
-          <img src={logo} className="App-logo" alt="logo" />
-          {this.state.booked ===  true && 
+          {!this.state.booked && !this.state.statusLoading ? ( 
+            <>
+              ...is available! 
+            <p className='available-tick'>
+              &#9989;
+            </p>
+          </> ) : (
+             <ClipLoader
+             css={''}
+             sizeUnit={"px"}
+             size={150}
+             color={'#fff'}
+             loading={this.state.statusLoading}
+           /> 
+          )
+          }
+          {this.state.booked && 
             <>
               <p>
                 Booked by: {this.state.userEmail}
