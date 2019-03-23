@@ -7,6 +7,7 @@ interface IState {
   booked?: boolean;
   userEmail?: string;
   deskName?: string;
+  deskId?: string;
 }
 
 interface IProps {
@@ -16,29 +17,41 @@ interface IProps {
 class App extends React.Component<IProps, IState> {
 
   statusEndpoint = 'https://arup-iot-desk.appspot.com/api/desks/';
+  infoEndpoint = 'http://172.24.2.65/info';
 
   constructor (props: any) {
     super(props)
     this.state = {
       booked: false,
       userEmail: '' ,
-      deskName: ''
+      deskName: '',
+      deskId: ''
     }
   }
 
   getStatus() {
 
     const id = '5629499534213120'
+
+    const requests = [
+      axios.get(this.infoEndpoint),
+      axios.get(this.statusEndpoint + id) 
+    ]; 
+
+    axios.get(this.infoEndpoint).then( infoRes => {
+      console.log(infoRes);
+
+    })
   
-    axios.get(this.statusEndpoint + id)
-      .then(response => {
-        console.log(response.data)
-        this.setState({
-          booked: response.data.booked,
-          userEmail: response.data.user_email,
-          deskName: response.data.name
-        })
-      })
+    // axios.get(this.statusEndpoint + id)
+    //   .then(response => {
+    //     console.log(response.data)
+    //     this.setState({
+    //       booked: response.data.booked,
+    //       userEmail: response.data.user_email,
+    //       deskName: response.data.name
+    //     })
+    //   })
   }
 
   componentDidMount() {

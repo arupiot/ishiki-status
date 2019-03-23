@@ -25,6 +25,7 @@ import signal
 
 app = Flask(__name__,  static_folder='build')
 api = Api(app)
+CORS(app)
 
 # utils
 
