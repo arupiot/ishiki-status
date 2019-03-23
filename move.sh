@@ -1,1 +1,1 @@
-cp -R ./build/* ./flask/static
+cp -R ./build/* ./flask/build
