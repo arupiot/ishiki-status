@@ -19,18 +19,48 @@ import subprocess
 import json
 import random
 from pathlib import Path
+import netifaces
 # from time import sleep
 import signal
 
-mpegOnly = True
-mlpOnly = False
-allFormats = False
-useNTP = False
-
 app = Flask(__name__,  static_folder='build')
 api = Api(app)
+CORS(app)
 
-# serve the angular app
+# utils
+
+def get_desk_hostname():
+    try:
+        with open("/media/usb/settings.json", "r") as f:
+            settings = json.loads(f.read())
+            return settings["host_name"]
+    except:
+        return "usb-not-found"
+
+def get_desk_id():
+    try:
+        with open("/media/usb/settings.json", "r") as f:
+            settings = json.loads(f.read())
+        return settings["datastore_id"]
+    except:
+        return "usb-not-found"
+
+def get_ipaddresses():
+    adapters = netifaces.interfaces()
+    addresses = []
+    for adapter in adapters:
+        if adapter in ('eth0','wlan0'):
+            mac_addr = netifaces.ifaddresses(adapter)[netifaces.AF_LINK][0]['addr']
+            try:
+                ip_addr = netifaces.ifaddresses(adapter)[netifaces.AF_INET][0]['addr']
+            except:
+                ip_addr = 'disconnected'
+            #print(mac_addr, ip_addr)
+            addresses.append((adapter,mac_addr,ip_addr))
+    return(addresses)
+
+
+# serve the React(tsx) app
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -46,10 +76,15 @@ class Test(Resource):
     def get(self):
         print('You\'re testing, you think?')
 
+class Info(Resource):
+    def get(self):
+        return jsonify([get_desk_hostname(), get_desk_id(), get_ipaddresses()])
+
 
 # URLs are defined here
 
 api.add_resource(Test, '/test')
+api.add_resource(Info, '/info')
 
 if __name__ == '__main__':
    app.run(debug=False, port=80, host='0.0.0.0', use_reloader=True)

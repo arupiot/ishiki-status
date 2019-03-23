@@ -9,20 +9,18 @@ RUN [ "cross-build-start" ]
 
 # make dirs
 
-RUN mkdir /opt/code
+RUN mkdir -p /opt/code/flask
 RUN mkdir -p /media/usb
 
 # copy lrpi_player repo
 
 RUN sudo apt-get install libatlas-base-dev psmisc
 
-# removed the brick daemon from here to go into its own container
-#RUN sudo apt-get install libusb-1.0-0 libudev0 pm-utils
-#RUN wget http://download.tinkerforge.com/tools/brickd/linux/brickd_linux_latest_armhf.deb
-#RUN sudo dpkg -i brickd_linux_latest_armhf.deb
+COPY flask /opt/code/flask
 
-RUN git clone --single-branch -b master --depth 3 https://github.com/arupiot/ishiki-status /opt/code && \
-    pip3 install -r /opt/code/flask/requirements.txt
+RUN ls /opt/code/
+
+RUN pip3 install -r /opt/code/flask/requirements.txt
 
 # serve Flask from 80
 WORKDIR /opt/code/flask
