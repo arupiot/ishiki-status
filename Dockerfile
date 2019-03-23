@@ -9,14 +9,16 @@ RUN [ "cross-build-start" ]
 
 # make dirs
 
-RUN mkdir /opt/code
+RUN mkdir -p /opt/code/flask
 RUN mkdir -p /media/usb
 
 # copy lrpi_player repo
 
 RUN sudo apt-get install libatlas-base-dev psmisc
 
-COPY flask /opt/code/
+COPY flask /opt/code/flask
+
+RUN ls /opt/code/
 
 RUN pip3 install -r /opt/code/flask/requirements.txt
 
