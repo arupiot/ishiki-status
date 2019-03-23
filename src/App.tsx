@@ -72,7 +72,7 @@ class App extends React.Component<IProps, IState> {
                 Booked by: {this.state.userEmail}
               </p>
               <p>
-                Booked until 5:30pm
+                until 5:30pm
               </p>
             </>
           }
