@@ -10,13 +10,14 @@
     "axios": "^0.18.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "react-icons": "^3.5.0",
     "react-scripts": "2.1.8",
     "react-spinners": "^0.5.3",
     "typescript": "3.3.4000"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && ./move.sh",
+    "build": "rm -rf ./flask/build/* && react-scripts build && ./move.sh",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

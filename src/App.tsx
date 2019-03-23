@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios'
 // First way to import
 import { ClipLoader } from 'react-spinners';
+import { MdDone } from 'react-icons/md';
 import './App.css';
 
 interface IState {
@@ -46,7 +47,8 @@ class App extends React.Component<IProps, IState> {
         this.setState({
           booked: response.data.booked,
           userEmail: response.data.user_email,
-          deskName: response.data.name
+          deskName: response.data.name,
+          statusLoading: false
         })
       })
     }
@@ -96,7 +98,7 @@ class App extends React.Component<IProps, IState> {
             <>
               ...is available! 
             <p className='available-tick'>
-              &#9989;
+              <MdDone/>
             </p>
           </> ) : (
              <ClipLoader

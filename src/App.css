@@ -28,7 +28,8 @@
 }
 
 .available-tick {
-  font-size: 160%;
+  font-size: 3.1em;
+  color: green;
 }
 
 @keyframes App-logo-spin {
