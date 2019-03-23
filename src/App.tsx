@@ -8,6 +8,10 @@ interface IState {
   userEmail?: string;
   deskName?: string;
   deskId?: string;
+  eth0Ip?: string;
+  wlan0Ip?: string;
+  hostname?: string;
+  infoLoading?: boolean;
 }
 
 interface IProps {
@@ -18,6 +22,7 @@ class App extends React.Component<IProps, IState> {
 
   statusEndpoint = 'https://arup-iot-desk.appspot.com/api/desks/';
   infoEndpoint = 'http://172.24.2.65/info';
+  infoLoading: boolean = true;
 
   constructor (props: any) {
     super(props)
@@ -25,55 +30,54 @@ class App extends React.Component<IProps, IState> {
       booked: false,
       userEmail: '' ,
       deskName: '',
-      deskId: ''
+      deskId: '',
+      infoLoading: true
     }
   }
 
   getStatus() {
+    axios.get(this.statusEndpoint + this.state.deskId)
+      .then(response => {
+        console.log(response.data)
+        this.setState({
+          booked: response.data.booked,
+          userEmail: response.data.user_email,
+          deskName: response.data.name
+        })
+      })
+  }
 
-    const id = '5629499534213120'
-
-    const requests = [
-      axios.get(this.infoEndpoint),
-      axios.get(this.statusEndpoint + id) 
-    ]; 
+  getInfo() {
 
     axios.get(this.infoEndpoint).then( infoRes => {
       console.log(infoRes);
-
-    })
-  
-    // axios.get(this.statusEndpoint + id)
-    //   .then(response => {
-    //     console.log(response.data)
-    //     this.setState({
-    //       booked: response.data.booked,
-    //       userEmail: response.data.user_email,
-    //       deskName: response.data.name
-    //     })
-    //   })
+      this.setState({
+        hostname: infoRes.data[0],
+        eth0Ip: infoRes.data[2][0][2],
+        wlan0Ip: infoRes.data[2][1][2],
+        deskId: infoRes.data[1],
+        infoLoading: false
+      })
+    })    
   }
 
   componentDidMount() {
-
-    this.getStatus(); 
-
-    setInterval( () => {
-      this.getStatus()  
-    }, 4000)
-
-    
+    this.getInfo(); 
   }
 
   render() {
 
-    const hostname:string = window.location.hostname
+    if (this.state.infoLoading !== false) {
+      setInterval( () => {
+        this.getStatus()  
+      }, 4000)  
+    }
 
     return (
       <div className="App">
         <header className="App-header">
-          <p>
-            <code>{hostname}</code>
+          <p className='debug'>
+            <code>{this.state.hostname} : ({this.state.eth0Ip}) : ({this.state.wlan0Ip})</code>
           </p>
           <p>
             <code>{this.state.deskName}</code>
