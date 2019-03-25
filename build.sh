@@ -1,3 +1,4 @@
+npm run build
 sudo docker build -t ishiki-status .
 sudo docker images
 sudo docker tag ishiki-status arupiot/ishiki-status:staging

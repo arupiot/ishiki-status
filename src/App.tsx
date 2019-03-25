@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-// First way to import
 import { ClipLoader } from 'react-spinners';
 import { MdDone } from 'react-icons/md';
 import './App.css';
+import { string } from 'prop-types';
 
 interface IState {
   booked?: boolean;
@@ -24,8 +24,9 @@ interface IProps {
 class App extends React.Component<IProps, IState> {
 
   statusEndpoint = 'https://arup-iot-desk.appspot.com/api/desks/';
-  infoEndpoint = 'http://statusserver/info';
+  infoEndpoint: string;
   infoLoading: boolean = true;
+  
 
   constructor (props: any) {
     super(props)
@@ -36,6 +37,11 @@ class App extends React.Component<IProps, IState> {
       deskId: '',
       infoLoading: true,
       statusLoading: true,
+    }
+    if (process.env.NODE_ENV === 'development') {
+      this.infoEndpoint = 'http://10.18.32.41/info';
+    } else {
+      this.infoEndpoint = 'http://statusserver/info'
     }
   }
 
@@ -88,17 +94,21 @@ class App extends React.Component<IProps, IState> {
     return (
       <div className="App">
         <header className="App-header">
-          <p className='debug'>
-            <code>{this.state.hostname} : ({this.state.eth0Ip}) : ({this.state.wlan0Ip})</code>
-          </p>
+          {process.env.NODE_ENV === 'development' &&
+            <>
+              <p className='debug'>
+                <code>{this.state.hostname} : ({this.state.eth0Ip}) : ({this.state.wlan0Ip})</code>
+              </p>
+            </>
+          }
           <p>
-            <code>{this.state.deskName}</code>
+            <span className='desk-label'>Desk:</span> <code className='desk-name'>{this.state.deskName}</code>
           </p>
           {!this.state.booked && !this.state.statusLoading ? ( 
             <>
               ...is available! 
-            <p className='available-tick'>
-              <MdDone/>
+            <p>
+              <MdDone className='available-tick'/>
             </p>
           </> ) : (
              <ClipLoader
