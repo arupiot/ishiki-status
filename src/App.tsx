@@ -41,7 +41,7 @@ class App extends React.Component<IProps, IState> {
     if (process.env.NODE_ENV === 'development') {
       this.infoEndpoint = 'http://10.18.32.41/info';
     } else {
-      this.infoEndpoint = 'http://statusserver/info'
+      this.infoEndpoint = 'http://localhost/info'
     }
   }
 
