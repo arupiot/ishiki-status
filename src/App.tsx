@@ -155,7 +155,10 @@ class App extends React.Component<IProps, IState> {
 
           { !this.state.networkError &&
             <p className='desk-name-wrapper'>
-              <span className='desk-label'>Desk:</span> <code className='desk-name'>{this.state.deskName}</code>
+              <span className='desk-label'>Desk: </span> 
+              <div className='desk-name'>
+                <code>{this.state.deskName}</code>
+              </div>
             </p>
           }
 
@@ -193,7 +196,7 @@ class App extends React.Component<IProps, IState> {
               <QRCode 
                 renderAs='canvas'
                 size={90}
-                value="http://book.arupiot.com" 
+                value={"http://" + this.bookingUrl} 
               />   
           </div>
           </div>

@@ -29,11 +29,26 @@
 }
 
 .desk-name-wrapper {
-  width: 90vw;
+  min-width: 70vw;
 }
 
 .desk-name {
-  font-size: 320%;
+  display: inline-block;
+  min-width: 40vw;
+  height: 2em;
+}
+
+.desk-name code {
+  width: 90%;
+  font-size: calc(3.9vh + 3.9vw);
+}
+
+.desk-name svg text {
+  width: 90%;
+}
+
+.desk-name svg text {
+  fill: white;
 }
 
 .App-link {
