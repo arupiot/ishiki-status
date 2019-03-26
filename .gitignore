@@ -10,6 +10,7 @@
 
 # production
 /build
+/flask/build
 
 # misc
 .DS_Store
