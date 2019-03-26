@@ -4,6 +4,7 @@ import { ClipLoader } from 'react-spinners';
 import { MdDone } from 'react-icons/md';
 import './App.css';
 import { string } from 'prop-types';
+import QRCode  from 'qrcode.react';
 
 interface IState {
   booked?: boolean;
@@ -101,7 +102,7 @@ class App extends React.Component<IProps, IState> {
               </p>
             </>
           }
-          <p>
+          <p className='desk-name-wrapper'>
             <span className='desk-label'>Desk:</span> <code className='desk-name'>{this.state.deskName}</code>
           </p>
           {!this.state.booked && !this.state.statusLoading ? ( 
@@ -112,9 +113,8 @@ class App extends React.Component<IProps, IState> {
             </p>
           </> ) : (
              <ClipLoader
-             css={''}
              sizeUnit={"px"}
-             size={150}
+             size={100}
              color={'#fff'}
              loading={this.state.statusLoading}
            /> 
@@ -130,6 +130,18 @@ class App extends React.Component<IProps, IState> {
               </p>
             </>
           }
+          <div className="booking-prompt">
+            <div className="link-text">
+              book.arupiot.com
+            </div>
+            <div className="booking-qr">
+              <QRCode 
+                renderAs='canvas'
+                size={90}
+                value="http://book.arupiot.com" 
+              />   
+          </div>
+          </div>
         </header>
       </div>
     );

@@ -25,11 +25,15 @@
 
 .desk-label {
   color: rgb(158, 158, 158);
-  font-size: 95%;
+  font-size: 120%;
+}
+
+.desk-name-wrapper {
+  width: 90vw;
 }
 
 .desk-name {
-  font-size: 200%;
+  font-size: 320%;
 }
 
 .App-link {
@@ -44,6 +48,23 @@
   width: 4rem;
   height: 4rem;
   color: green;
+}
+
+.booking-prompt {
+  width: 90vw;
+  font-size: 120%;
+  display: flex;
+  flex-direction: row; 
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.booking-prompt .link-text {
+
+}
+
+.booking-prompt .booking-qr {
+  
 }
 
 @keyframes App-logo-spin {
