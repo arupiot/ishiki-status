@@ -4,7 +4,7 @@ import QRCode  from 'qrcode.react';
 
 interface IProps {
     deskName: string | undefined;
-  }
+}
 
 class Available extends React.Component<IProps> {
 

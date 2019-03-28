@@ -208,7 +208,10 @@ class App extends React.Component<IProps, IState> {
           }
 
           {(this.state.booked && this.state.hotdesk && !this.state.statusLoading) &&
-            <Booked/> 
+            <Booked
+              deskName={this.state.deskName}
+              userEmail={this.state.userEmail}
+            /> 
           }
 
           {this.state.hotdesk &&

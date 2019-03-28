@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 
-
 interface IProps {
-    statusEndpoint?: string
-  }
+    deskName: string | undefined;
+    userEmail: string | undefined;
+}
 
 class Booked extends React.Component<IProps> {
 
-    bookingUrl = 'book.arupiot.com';
-
     render() {
         return (
-            <div>Booked!</div>
+            <>
+                <div>{this.props.userEmail}</div>
+                <div>{this.props.deskName}</div>
+                <div>Booked until 17:30</div>
+            </>
         )
     }
     
