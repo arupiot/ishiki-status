@@ -1,0 +1,20 @@
+.available-card {
+    width: 100vw;
+    height: 65vh;
+    background-color: #5CA747;
+    color: white;
+}
+
+.desk-name, .until {
+    margin-left: 2rem;
+    padding-top: 2rem;
+
+}
+
+.desk-name {
+    font-size: 260%;
+}
+
+.until {
+    font-size: 150%;
+}

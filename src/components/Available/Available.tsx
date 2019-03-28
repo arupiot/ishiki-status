@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import QRCode  from 'qrcode.react';
+import './Available.css';
 
 
 interface IProps {
@@ -12,10 +13,10 @@ class Available extends React.Component<IProps> {
 
     render() {
         return (
-            <>
-                <div>Desk {this.props.deskName}</div>
-                <div>Availble until 17:30</div>
-            </>
+            <div className="available-card">
+                <div className="desk-name">Desk {this.props.deskName}</div>
+                <div className="until">Availble until 17:30</div>
+            </div>
         )
     }
     

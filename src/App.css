@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 .App * {
@@ -26,21 +26,6 @@
 .desk-label {
   color: rgb(158, 158, 158);
   font-size: 120%;
-}
-
-.desk-name-wrapper {
-  min-width: 70vw;
-}
-
-.desk-name {
-  display: inline-block;
-  min-width: 40vw;
-  height: 2em;
-}
-
-.desk-name code {
-  width: 90%;
-  font-size: calc(3.9vh + 3.9vw);
 }
 
 .desk-name svg text {
@@ -77,19 +62,6 @@
 
 .network-error-wrapper {
   height: 30vw;
-}
-
-.booking-prompt {
-  width: 90vw;
-  font-size: 120%;
-  display: flex;
-  flex-direction: row; 
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.booking-prompt .link-text {
-  font-size: 110%;
 }
 
 @keyframes App-logo-spin {
