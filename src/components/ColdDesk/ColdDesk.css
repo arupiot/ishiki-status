@@ -1,0 +1,34 @@
+.colddesk-card * {
+    text-align: left;
+    font-size: 1.2rem;
+}
+
+.desk-name {
+    font-size: 90%;
+}
+
+.colddesk-card {
+    height: 100vh;
+    width: 100vw;
+    background-color: #fff;
+    color: #333;
+    display: flex;
+    flex-direction: row;
+}
+
+.colddesk-card>div {
+    padding: 1em;
+}
+
+.user-img {
+    width: 30%;
+}
+
+.user-img img {
+    width: 100%;
+    border-radius: 50%;
+}
+
+.user-info-wrapper {
+    width: 70%;
+}

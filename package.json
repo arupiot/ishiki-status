@@ -19,6 +19,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start-prod": "REACT_APP_STAGE=prod react-scripts start",
     "build": "rm -rf ./flask/build/* && react-scripts build && ./move.sh",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
