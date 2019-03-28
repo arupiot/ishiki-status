@@ -3,7 +3,12 @@ import axios from 'axios'
 import { ClipLoader } from 'react-spinners';
 import { MdDone, MdSignalWifiOff } from 'react-icons/md';
 import './App.css';
-import QRCode  from 'qrcode.react';
+
+
+import ColdDesk from './components/ColdDesk/ColdDesk';
+import Available from './components/Available/Available';
+import Booked from './components/Booked/Booked';
+import Footer from './components/Footer/Footer';
 
 interface NetworkError {
   type: string | null;
@@ -13,7 +18,7 @@ interface NetworkError {
 interface IState {
   booked?: boolean;
   userEmail?: string;
-  deskName?: string;
+  deskName?: string | undefined;
   deskId?: string;
   eth0Ip?: string;
   wlan0Ip?: string;
@@ -21,6 +26,8 @@ interface IState {
   infoLoading?: boolean;
   statusLoading: boolean;
   networkError?: NetworkError | null;
+  hotdesk: boolean;
+  imgUrl: string | undefined;
 }
 
 interface IProps {
@@ -73,8 +80,12 @@ class App extends React.Component<IProps, IState> {
       deskId: '',
       infoLoading: true,
       statusLoading: true,
-      networkError: null
+      networkError: null,
+      hotdesk: false,
+      imgUrl: undefined
     }
+    console.log(process.env.NODE_ENV);
+    
     if (process.env.NODE_ENV === 'development') {
       this.infoEndpoint = 'http://10.18.32.41/info';
     } else {
@@ -91,6 +102,8 @@ class App extends React.Component<IProps, IState> {
           booked: response.data.booked,
           userEmail: response.data.user_email,
           deskName: response.data.name,
+          hotdesk: response.data.hotdesk,
+          imgUrl: response.data.cold_img,
           statusLoading: false,
           networkError: null
         })
@@ -121,7 +134,8 @@ class App extends React.Component<IProps, IState> {
           wlan0Ip: wlan0Ip,
           deskId: infoRes.data[1],
           infoLoading: false,
-          networkError: null
+          networkError: null,
+          imgUrl: undefined
         })
       }
     })  
@@ -150,18 +164,13 @@ class App extends React.Component<IProps, IState> {
       }, 4000)  
     }
 
-    const NOTIFICATION_STATES = {
-
-    }
-
     return (
-
       
       <div className="App">
          
         <header className="App-header">
           <>
-            { process.env.NODE_ENV === 'development' &&
+            { (process.env.NODE_ENV === 'development' && process.env.REACT_APP_STAGE == null) &&
               <>
                 <p className='debug'>
                   <code>{this.state.hostname} : ({this.state.eth0Ip}) : ({this.state.wlan0Ip})</code>
@@ -170,21 +179,18 @@ class App extends React.Component<IProps, IState> {
             }
           </>
 
-          { !this.state.networkError &&
-            <div className='desk-name-wrapper'>
-              <span className='desk-label'>Desk: </span> 
-              <div className='desk-name'>
-                <code>{this.state.deskName}</code>
-              </div>
-            </div>
-          }
+          {!this.state.hotdesk && !this.state.statusLoading &&
+            <ColdDesk 
+              deskName={this.state.deskName}
+              email={this.state.userEmail}
+              imgUrl={this.state.imgUrl}
+            />
+          } 
 
-          {!this.state.booked && !this.state.statusLoading ? ( 
+
+          {!this.state.booked && !this.state.statusLoading && this.state.hotdesk ? ( 
             <>
-              ...is available! 
-            <p>
-              <MdDone className='available-tick'/>
-            </p>
+              
           </> ) : ( this.state.networkError ? 
                       <NetworkError message={this.state.networkError.message} deskId={this.state.deskId} />
                     : 
@@ -193,31 +199,25 @@ class App extends React.Component<IProps, IState> {
                       />
           )
           }
-          {this.state.booked && 
-            <>
-              <p>
-                Booked by: {this.state.userEmail}
-              </p>
-              <p>
-                until 5:30pm
-              </p>
-            </>
+
+          
+          {(!this.state.booked && this.state.hotdesk && !this.state.statusLoading) &&
+            <Available
+              deskName={this.state.deskName}
+            /> 
           }
 
+          {(this.state.booked && this.state.hotdesk && !this.state.statusLoading) &&
+            <Booked
+              deskName={this.state.deskName}
+              userEmail={this.state.userEmail}
+            /> 
+          }
 
-          <div className="booking-prompt">
-            <div className="link-text">
-              {this.bookingUrl}
-            </div>
-            <div className="booking-qr">
-              <QRCode 
-                renderAs='canvas'
-                size={90}
-                value={"http://" + this.bookingUrl} 
-              />   
-          </div>
-          </div>
-        
+          {this.state.hotdesk &&
+            <Footer />
+          }
+
         </header>
         
       </div>

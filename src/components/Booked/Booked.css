@@ -1,0 +1,24 @@
+.booked-card {
+    width: 100vw;
+    height: 65vh;
+    background-color: white;
+    color: #282c34;
+}
+
+.desk-booked-name, .user-name, .until {
+    margin-left: 2rem;
+    padding-top: 1rem;
+
+}
+
+.user-name {
+    font-size: 260%;
+}
+
+.desk-booked-name {
+    font-size: 150%;
+}
+
+.until {
+    font-size: 150%;
+}

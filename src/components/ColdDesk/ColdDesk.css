@@ -1,0 +1,48 @@
+.colddesk-card * {
+    text-align: left;
+    font-size: 1.2rem;
+}
+
+.desk-cold-name {
+    font-size: 90%;
+}
+
+.colddesk-card {
+    height: 100vh;
+    width: 100vw;
+    background-color: #fff;
+    color: #333;
+    display: flex;
+    flex-direction: row;
+}
+
+.user-info-wrapper>div {
+    padding: 0.4em 0em;
+}
+
+.colddesk-card>div {
+    padding-top: 5.2em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.real-cold-name {
+    font-size: 100%;
+}
+
+.user-img {
+    width: 30%;
+}
+
+.user-img img {
+    width: 100%;
+    border-radius: 50%;
+}
+
+.user-info-wrapper {
+    width: 70%;
+}
+
+.booked-cold-until {
+    font-size: 80%;
+}
