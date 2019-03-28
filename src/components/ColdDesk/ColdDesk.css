@@ -3,7 +3,7 @@
     font-size: 1.2rem;
 }
 
-.desk-name {
+.desk-cold-name {
     font-size: 90%;
 }
 
@@ -16,8 +16,18 @@
     flex-direction: row;
 }
 
+.user-info-wrapper>div {
+    padding: 0.4em 0em;
+}
+
 .colddesk-card>div {
-    padding: 1em;
+    padding-top: 5.2em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.real-cold-name {
+    font-size: 100%;
 }
 
 .user-img {
@@ -31,4 +41,8 @@
 
 .user-info-wrapper {
     width: 70%;
+}
+
+.booked-cold-until {
+    font-size: 80%;
 }

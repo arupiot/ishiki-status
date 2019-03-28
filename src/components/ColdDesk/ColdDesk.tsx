@@ -12,6 +12,9 @@ class ColdDesk extends React.Component<IProps> {
     render() {
 
         console.log(this.props.imgUrl);
+
+        let processedEmail: string;
+
         
 
         return (
@@ -20,9 +23,9 @@ class ColdDesk extends React.Component<IProps> {
                     <img src={this.props.imgUrl} /> 
                 </div>
                 <div className="user-info-wrapper">
-                    <div className="real-name">{this.props.email}</div>
-                    <div className="desk-name">@ desk{this.props.deskName}</div>
-                    <div className="booked-until">until 17:30</div>
+                    <div className="real-cold-name">{this.props.email}</div>
+                    <div className="desk-cold-name">@ desk {this.props.deskName}</div>
+                    <div className="booked-cold-until">until 17:30</div>
                 </div>
             </div>
         )
