@@ -22,6 +22,7 @@ class Footer extends React.Component<IProps> {
                     <QRCode 
                       renderAs='canvas'
                       size={80}
+                      bgColor={'#AAA'}
                       value={"http://" + this.bookingUrl} 
                     />   
                 </div>
