@@ -6,6 +6,8 @@ import './App.css';
 
 
 import ColdDesk from './components/ColdDesk/ColdDesk';
+import Available from './components/Available/Available';
+import Booked from './components/Booked/Booked';
 import Footer from './components/Footer/Footer';
 
 interface NetworkError {
@@ -16,7 +18,7 @@ interface NetworkError {
 interface IState {
   booked?: boolean;
   userEmail?: string;
-  deskName?: string;
+  deskName?: string | undefined;
   deskId?: string;
   eth0Ip?: string;
   wlan0Ip?: string;
@@ -177,15 +179,6 @@ class App extends React.Component<IProps, IState> {
             }
           </>
 
-          { !this.state.networkError && this.state.hotdesk &&
-            <div className='desk-name-wrapper'>
-              <span className='desk-label'>Desk: </span> 
-              <div className='desk-name'>
-                <code>{this.state.deskName}</code>
-              </div>
-            </div>
-          }
-
           {!this.state.hotdesk && !this.state.statusLoading &&
             <ColdDesk 
               deskName={this.state.deskName}
@@ -197,10 +190,7 @@ class App extends React.Component<IProps, IState> {
 
           {!this.state.booked && !this.state.statusLoading && this.state.hotdesk ? ( 
             <>
-              ...is available! 
-            <p>
-              <MdDone className='available-tick'/>
-            </p>
+              
           </> ) : ( this.state.networkError ? 
                       <NetworkError message={this.state.networkError.message} deskId={this.state.deskId} />
                     : 
@@ -211,15 +201,14 @@ class App extends React.Component<IProps, IState> {
           }
 
           
-          {(this.state.booked && this.state.hotdesk) &&
-            <>
-              <p>
-                Booked by: {this.state.userEmail}
-              </p>
-              <p>
-                until 5:30pm
-              </p>
-            </>
+          {(!this.state.booked && this.state.hotdesk && !this.state.statusLoading) &&
+            <Available
+              deskName={this.state.deskName}
+            /> 
+          }
+
+          {(this.state.booked && this.state.hotdesk && !this.state.statusLoading) &&
+            <Booked/> 
           }
 
           {this.state.hotdesk &&
