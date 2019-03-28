@@ -3,8 +3,12 @@ import axios from 'axios'
 import { ClipLoader } from 'react-spinners';
 import { MdDone, MdSignalWifiOff } from 'react-icons/md';
 import './App.css';
-import { string } from 'prop-types';
 import QRCode  from 'qrcode.react';
+
+interface NetworkError {
+  type: string | null;
+  message: string | null;
+}
 
 interface IState {
   booked?: boolean;
@@ -16,7 +20,7 @@ interface IState {
   hostname?: string;
   infoLoading?: boolean;
   statusLoading: boolean;
-  networkError?: boolean;
+  networkError?: NetworkError | null;
 }
 
 interface IProps {
@@ -24,14 +28,19 @@ interface IProps {
 }
 
 interface StatusLoadingProps {
-  statusLoading: boolean,
+  statusLoading: boolean;
+}
+
+interface NetworkErrorProps {
+  message: string | null;
+  deskId?: string;
 }
 
 
-const NetworkError = () => (
+const NetworkError: React.SFC<NetworkErrorProps>  = (props) => (
   <div className='network-error-wrapper'>
     <MdSignalWifiOff className='network-error'/>
-    <div>There is a network problem</div>
+    <div>{props.message}, deskId: {props.deskId}</div>
   </div>
 );
 
@@ -64,7 +73,7 @@ class App extends React.Component<IProps, IState> {
       deskId: '',
       infoLoading: true,
       statusLoading: true,
-      networkError: false
+      networkError: null
     }
     if (process.env.NODE_ENV === 'development') {
       this.infoEndpoint = 'http://10.18.32.41/info';
@@ -82,13 +91,17 @@ class App extends React.Component<IProps, IState> {
           booked: response.data.booked,
           userEmail: response.data.user_email,
           deskName: response.data.name,
-          statusLoading: false
+          statusLoading: false,
+          networkError: null
         })
       })
       .catch( error => {
         console.log('Error getting status!', error);
         this.setState({
-          networkError: true
+          networkError: {
+            type: 'WAN',
+            message: 'Cannot contact appspot api'
+          }
         })
       }) 
     }
@@ -107,14 +120,18 @@ class App extends React.Component<IProps, IState> {
           eth0Ip: infoRes.data[2][0][2],
           wlan0Ip: wlan0Ip,
           deskId: infoRes.data[1],
-          infoLoading: false
+          infoLoading: false,
+          networkError: null
         })
       }
     })  
     .catch( error => {
       console.log('Error getting info!', error);
       this.setState({
-        networkError: true
+        networkError: {
+          type: 'local',
+          message: 'Cannot contact local statusserver'
+        }
       })
     })  
   }
@@ -154,12 +171,12 @@ class App extends React.Component<IProps, IState> {
           </>
 
           { !this.state.networkError &&
-            <p className='desk-name-wrapper'>
+            <div className='desk-name-wrapper'>
               <span className='desk-label'>Desk: </span> 
               <div className='desk-name'>
                 <code>{this.state.deskName}</code>
               </div>
-            </p>
+            </div>
           }
 
           {!this.state.booked && !this.state.statusLoading ? ( 
@@ -169,7 +186,7 @@ class App extends React.Component<IProps, IState> {
               <MdDone className='available-tick'/>
             </p>
           </> ) : ( this.state.networkError ? 
-                      <NetworkError />
+                      <NetworkError message={this.state.networkError.message} deskId={this.state.deskId} />
                     : 
                       <StatusLoading
                         statusLoading={this.state.statusLoading} 
