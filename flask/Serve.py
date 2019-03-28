@@ -34,16 +34,18 @@ def get_desk_hostname():
         with open("/media/usb/settings.json", "r") as f:
             settings = json.loads(f.read())
             return settings["host_name"]
-    except:
-        return "usb-not-found"
+    except Exception as e:
+        print('Could not get host_name. why: ', e)
+        return "usb-error: cannot read host_name"
 
 def get_desk_id():
     try:
         with open("/media/usb/settings.json", "r") as f:
             settings = json.loads(f.read())
         return settings["datastore_id"]
-    except:
-        return "usb-not-found"
+    except Exception as e:
+        print('Could not get desk id. why: ', e)
+        return "usb-error: cannot read datastore_id"
 
 def get_ipaddresses():
     adapters = netifaces.interfaces()
