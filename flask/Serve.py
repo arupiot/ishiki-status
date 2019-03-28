@@ -40,12 +40,10 @@ def get_desk_hostname():
 
 def get_desk_id():
     try:
-        with open("/media/usb/settings.json", "r") as f:
-            settings = json.loads(f.read())
-        return settings["datastore_id"]
+        return os.environ['DATASTORE_ID']
     except Exception as e:
         print('Could not get desk id. why: ', e)
-        return "usb-error: cannot read datastore_id"
+        return "env-error: cannot read datastore_id"
 
 def get_ipaddresses():
     adapters = netifaces.interfaces()
